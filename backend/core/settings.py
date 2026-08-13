@@ -73,10 +73,22 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
+# In Render/Production, write the database and media files to the persistent disk path /data
+ON_RENDER = os.getenv('RENDER') == 'true' or os.getenv('RENDER_EXTERNAL_HOSTNAME') is not None
+if ON_RENDER:
+    DB_DIR = Path('/data')
+    MEDIA_DIR = '/data/media'
+    # Create DB dir if not exists (safety fallback)
+    os.makedirs(DB_DIR, exist_ok=True)
+    os.makedirs(MEDIA_DIR, exist_ok=True)
+else:
+    DB_DIR = BASE_DIR
+    MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': DB_DIR / 'db.sqlite3',
     }
 }
 
@@ -101,10 +113,22 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# WhiteNoise storage configuration for compression and hashing
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+# Prevent build crashes due to missing asset links in third-party CSS files
+WHITENOISE_MANIFEST_STRICT = False
 
 # Media files - for local image uploads
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = MEDIA_DIR
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
