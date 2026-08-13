@@ -79,8 +79,7 @@ if ON_RENDER:
     DB_DIR = Path('/data')
     MEDIA_DIR = '/data/media'
     # Create DB dir if not exists (safety fallback)
-    os.makedirs(DB_DIR, exist_ok=True)
-    os.makedirs(MEDIA_DIR, exist_ok=True)
+    
 else:
     DB_DIR = BASE_DIR
     MEDIA_DIR = os.path.join(BASE_DIR, 'media')
