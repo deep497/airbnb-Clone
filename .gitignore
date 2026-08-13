@@ -1,0 +1,49 @@
+# =============================================================================
+# Airbnb Clone – .gitignore
+# NOTE: db.sqlite3 and media/ are intentionally NOT ignored
+# so seeded data persists for Render deployment.
+# =============================================================================
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Python / Django Backend
+# ─────────────────────────────────────────────────────────────────────────────
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/*.py[cod]
+backend/**/*$py.class
+backend/*.egg-info/
+backend/dist/
+backend/build/
+backend/.env
+backend/.env.local
+
+# DO NOT ignore db.sqlite3 – we want seeded data in git for Render
+# backend/db.sqlite3
+
+# DO NOT ignore media/ – we want uploaded/seeded images in git for Render
+# backend/media/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Node.js / Next.js Frontend
+# ─────────────────────────────────────────────────────────────────────────────
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.pnpm-debug.log*
+
+# ─────────────────────────────────────────────────────────────────────────────
+# OS / IDE
+# ─────────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
