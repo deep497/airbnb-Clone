@@ -73,21 +73,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
-# In Render/Production, write the database and media files to the persistent disk path /data
-ON_RENDER = os.getenv('RENDER') == 'true' or os.getenv('RENDER_EXTERNAL_HOSTNAME') is not None
-if ON_RENDER:
-    DB_DIR = Path('/data')
-    MEDIA_DIR = '/data/media'
-    # Create DB dir if not exists (safety fallback)
-    
-else:
-    DB_DIR = BASE_DIR
-    MEDIA_DIR = os.path.join(BASE_DIR, 'media')
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DB_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -127,7 +116,7 @@ WHITENOISE_MANIFEST_STRICT = False
 
 # Media files - for local image uploads
 MEDIA_URL = '/media/'
-MEDIA_ROOT = MEDIA_DIR
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
