@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import Navbar from "@/components/Navbar";
+import EasterEgg from "@/components/EasterEgg";
 import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
@@ -67,6 +68,7 @@ export default function RootLayout({
                 },
               }}
             />
+            <EasterEgg />
           </ThemeProvider>
         </AuthProvider>
       </body>

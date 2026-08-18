@@ -3,6 +3,7 @@ import { fetchListings } from "@/lib/api";
 import ListingCard from "@/components/ListingCard";
 import Categories from "@/components/Categories";
 import MapPlaceholder from "@/components/MapPlaceholder";
+import HeroSection from "@/components/HeroSection";
 import { Listing } from "@/types";
 import { Loader2 } from "lucide-react";
 
@@ -69,22 +70,37 @@ async function ListingsGrid({ searchParams }: HomeProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-      {listings.map((listing) => (
-        <ListingCard key={listing.id} listing={listing} />
-      ))}
-    </div>
+    <>
+      {/* Section label — only shown when real listings are present */}
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          {Object.keys(queryParams).length > 0 ? 'Search results' : 'Available stays'}
+        </h2>
+        <span className="text-sm text-gray-400 dark:text-zinc-500 tabular-nums">
+          {listings.length} {listings.length === 1 ? 'listing' : 'listings'}
+        </span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        {listings.map((listing) => (
+          <ListingCard key={listing.id} listing={listing} />
+        ))}
+      </div>
+    </>
   );
 }
 
 export default async function HomePage({ searchParams }: HomeProps) {
   return (
     <>
+      {/* Hero — above the fold, value prop + CTA */}
+      <HeroSection />
+
       <Suspense fallback={<div className="h-14 bg-white dark:bg-[#121212] border-b border-gray-200 dark:border-zinc-800 animate-pulse" />}>
         <Categories />
       </Suspense>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* id="listings" gives the hero CTA its anchor scroll target */}
+      <div id="listings" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Suspense
           fallback={
             <div className="flex justify-center items-center py-32">
